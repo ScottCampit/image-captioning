@@ -63,3 +63,4 @@ if __name__ == "__main__":
 
     # Show the generated caption
     print("Generated text: ", tokenizer.decode(generated_caption[0]))
+    print(f"Original caption: {image_caption}")

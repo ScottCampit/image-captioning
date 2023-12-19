@@ -12,18 +12,17 @@ if __name__ == "__main__":
     # Load data from the TextVQA dataset in the HuggingFace Datasets library
     validation_set = load_dataset("textvqa", split="validation")
     image = validation_set['image'][0]
-    print(image)
     question = validation_set['question'][0]
+    print(f"Original question: {question}")
     
     # Load BLIP Model and Processor
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     processor = BlipProcessor.from_pretrained("ybelkada/blip-vqa-base")
     model = BlipForQuestionAnswering.from_pretrained(
-        "ybelkada/blip-vqa-base", 
-        torch_dtype=torch.float16
-    ).to(device)
+        "ybelkada/blip-vqa-base"
+    )
     
     # Inference with BLIP
-    inputs = processor(image, question, return_tensors="pt").to(device, torch.float16)
-    outputs = model(**inputs)
-    print(outputs)
+    inputs = processor(image, question, return_tensors="pt")
+    outputs = model.generate(**inputs)
+    print(f"Generated answer: {processor.tokenizer.decode(outputs[0])}")
+    print(f"Answer in TextQA dataset: {validation_set['answers'][0]}")
