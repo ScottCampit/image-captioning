@@ -1,5 +1,5 @@
 """
-Image captioning example with FLAVA and Conceptual Captions.
+Image captioning example with OpenFlamingo and Conceptual Captions.
 """
 
 import requests
